@@ -1,9 +1,14 @@
-# Data_Wrangling_Project_and_Tasks
+# Data Wrangling Projects
+
+
+# Overview
 
 Description of the purpose of the repository
 
 A   statement that   you   have   been   given   the 
 permission to make your work public
+
+# Description of subdirectories
 
 A description of each sub-directory
   project 1:
