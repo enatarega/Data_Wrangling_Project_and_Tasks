@@ -11,8 +11,8 @@ permission to make your work public
 # Description of subdirectories
 
 A description of each sub-directory
-  project 1:
-  project 2:
-  project 3:
-  midterm:
-  final:
+ -- project 1:
+ -- project 2:
+ -- project 3:
+ -- midterm:
+ -- final:
