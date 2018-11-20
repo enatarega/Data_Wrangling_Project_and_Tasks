@@ -1,1 +1,325 @@
+select * from qbs181.earega.earega_csv_sql;
 
+SP_RENAME 'qbs181.earega.earega_csv_sql.[seqn]', 'id';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq010]', 'diabetes_diagnosis';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[did040]', 'age_diagnosis';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq160]', 'prediabetes_status';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq170]', 'health_risk_diabetes';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq172]', 'personal_risk';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175a]', 'family_history';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175b]', 'overweight';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175c]', 'age';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175d]', 'poor_diet';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175e]', 'race';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175f]', 'baby_wght_over9';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175g]', 'lack_exercise';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175h]', 'high_blood_pressure';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175i]', 'high_blood_sugar';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175j]', 'high_cholestrol';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175k]', 'hypoglycemic';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175l]', 'extreme_hunger';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175m]', 'peripheral_numbness';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175n]', 'blurred_vision';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175o]', 'increased_fatigue';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175p]', 'risk_anyone';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175q]', 'doc_warning';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175r]', 'other_specify';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175s]', 'gestational_diabetes';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175t]', 'frequent_urination';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175u]', 'thirst';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175v]', 'sweet_craving';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175w]', 'medication';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq175x]', 'polycystic_ovarian_syndrome';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq180]', 'blood_test_3yrs';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq050]', 'insulin_intake';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[did060]', 'years_insulin_intake';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq060u]', 'insulin_intake_unit';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq070]', 'take_diabetic_pills';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq230]', 'years_diabetes_specialist';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq240]', 'doc_for_diabetes';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[did250]', 'doc_visits_pastyear';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[did260]', 'glucose_check';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq260u]', 'glucose_check_unit';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq275]', 'A1C_check';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq280]', 'last_A1C';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq291]', 'recommended_A1C';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq300s]', 'recent_SBP';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq300d]', 'recent_DBP';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[did310s]', 'recommended_SBP';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[did310d]', 'DBP';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[did320]', 'recent_LDL';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[did330]', 'recommended_LDL';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[did341]', 'feet_sores_checked';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[did350]', 'frequency_feet_checked';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq350u]', 'frequency_feet_checked_unit';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq360]', 'pupil_dilation_exam_date';
+SP_RENAME 'qbs181.earega.earega_csv_sql.[diq080]', 'diabetes_retinopathy';
+
+/* Changing data type to character */
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN id VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN diabetes_diagnosis VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN age_diagnosis VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN prediabetes_status VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN health_risk_diabetes VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN personal_risk VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN family_history VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN overweight VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN poor_diet VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN race VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN baby_wght_over9 VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN lack_exercise VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN high_blood_pressure VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN high_blood_sugar VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN high_cholestrol VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN hypoglycemic VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN extreme_hunger VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN peripheral_numbness VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN blurred_vision VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN increased_fatigue VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN risk_anyone VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN doc_warning VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN other_specify VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN gestational_diabetes VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN frequent_urination VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN thirst VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN sweet_craving VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN medication VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN polycystic_ovarian_syndrome VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN insulin_intake_unit VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN doc_for_diabetes VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN glucose_check_unit VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN A1C_check VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN frequency_feet_checked_unit VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN pupil_dilation_exam_date VARCHAR(200) NULL
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN diabetes_retinopathy VARCHAR(200) NULL
+
+
+/* Changing data type to integer */ /* For all below 0 = Null. 0 is not found in any of the data so I was able to define as null */ 
+
+UPDATE qbs181.earega.earega_csv_sql set age='0' where age='NA';     
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN age INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set blood_test_3yrs='0' where blood_test_3yrs='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN blood_test_3yrs INTEGER NULL
+
+
+UPDATE qbs181.earega.earega_csv_sql set insulin_intake='0' where insulin_intake='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN insulin_intake INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set years_insulin_intake='0' where years_insulin_intake='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN years_insulin_intake INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set take_diabetic_pills='0' where take_diabetic_pills='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN take_diabetic_pills INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set years_diabetes_specialist='0' where years_diabetes_specialist='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN years_diabetes_specialist INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set doc_visits_pastyear='0' where doc_visits_pastyear='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN doc_visits_pastyear INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set glucose_check='0' where glucose_check='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN glucose_check INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set recommended_A1C='0' where recommended_A1C='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN recommended_A1C INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set recent_SBP='0' where recent_SBP='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN recent_SBP INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set recent_DBP='0' where recent_DBP='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN recent_DBP INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set recommended_SBP='0' where recommended_SBP='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN recommended_SBP INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set DBP='0' where DBP='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN DBP INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set recent_SBP='0' where recent_SBP='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN recent_SBP INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set recent_LDL='0' where recent_LDL='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN recent_LDL INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set recommended_LDL='0' where recommended_LDL='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN recommended_LDL INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set feet_sores_checked='0' where feet_sores_checked='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN feet_sores_checked INTEGER NULL
+
+UPDATE qbs181.earega.earega_csv_sql set frequency_feet_checked='0' where frequency_feet_checked='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN frequency_feet_checked INTEGER NULL
+
+
+/* Changing data type to float */ /* 0 = Null. 0 is not found in any of the data so I was able to define as null */
+
+UPDATE qbs181.earega.earega_csv_sql set last_A1C='0' where last_A1C='NA';
+
+ALTER TABLE qbs181.earega.earega_csv_sql
+ALTER COLUMN last_A1C FLOAT NULL
+
+/* Count */ 
+
+select diabetes_diagnosis, count(*) as count from qbs181.earega.earega_csv_sql group by diabetes_diagnosis order by count desc;
+select prediabetes_status, count(*) as count from qbs181.earega.earega_csv_sql group by prediabetes_status order by count desc;
+select health_risk_diabetes, count(*) as count from qbs181.earega.earega_csv_sql group by health_risk_diabetes  order by count desc; 
+select personal_risk, count(*) as count from qbs181.earega.earega_csv_sql group by personal_risk order by count desc; 
+select family_history, count(*) as count from qbs181.earega.earega_csv_sql group by family_history order by count desc; 
+select overweight, count(*) as count from qbs181.earega.earega_csv_sql group by overweight order by count desc; 
+select age, count(*) as count from qbs181.earega.earega_csv_sql group by age order by count desc; 
+select poor_diet, count(*) as count from qbs181.earega.earega_csv_sql group by poor_diet order by count desc; 
+select race, count(*) as count from qbs181.earega.earega_csv_sql group by race order by count desc; 
+select baby_wght_over9, count(*) as count from qbs181.earega.earega_csv_sql group by baby_wght_over9 order by count desc; 
+select lack_exercise, count(*) as count from qbs181.earega.earega_csv_sql group by lack_exercise order by count desc; 
+select high_blood_pressure, count(*) as count from qbs181.earega.earega_csv_sql group by high_blood_pressure order by count desc; 
+select high_blood_sugar, count(*) as count from qbs181.earega.earega_csv_sql group by high_blood_sugar order by count desc; 
+select high_cholestrol, count(*) as count from qbs181.earega.earega_csv_sql group by high_cholestrol order by count desc; 
+select hypoglycemic, count(*) as count from qbs181.earega.earega_csv_sql group by hypoglycemic order by count desc; 
+select extreme_hunger, count(*) as count from qbs181.earega.earega_csv_sql group by extreme_hunger order by count desc; 
+select peripheral_numbness, count(*) as count from qbs181.earega.earega_csv_sql group by peripheral_numbness order by count desc; 
+select blurred_vision, count(*) as count from qbs181.earega.earega_csv_sql group by blurred_vision order by count desc;
+select increased_fatigue, count(*) as count from qbs181.earega.earega_csv_sql group by increased_fatigue order by count desc; 
+select risk_anyone, count(*) as count from qbs181.earega.earega_csv_sql group by risk_anyone order by count desc; 
+select doc_warning, count(*) as count from qbs181.earega.earega_csv_sql group by doc_warning order by count desc; 
+select other_specify, count(*) as count from qbs181.earega.earega_csv_sql group by other_specify order by count desc; 
+select gestational_diabetes, count(*) as count from qbs181.earega.earega_csv_sql group by gestational_diabetes order by count desc; 
+select frequent_urination, count(*) as count from qbs181.earega.earega_csv_sql group by frequent_urination order by count desc; 
+select thirst, count(*) as count from qbs181.earega.earega_csv_sql group by thirst order by count desc; 
+select sweet_craving, count(*) as count from qbs181.earega.earega_csv_sql group by sweet_craving order by count desc;
+select medication, count(*) as count from qbs181.earega.earega_csv_sql group by medication order by count desc; 
+select polycystic_ovarian_syndrome, count(*) as count from qbs181.earega.earega_csv_sql group by polycystic_ovarian_syndrome order by count desc; 
+select blood_test_3yrs, count(*) as count from qbs181.earega.earega_csv_sql group by blood_test_3yrs order by count desc; 
+select insulin_intake, count(*) as count from qbs181.earega.earega_csv_sql group by insulin_intake order by count desc; 
+select years_insulin_intake, count(*) as count from qbs181.earega.earega_csv_sql group by years_insulin_intake order by count desc; 
+select insulin_intake_unit, count(*) as count from qbs181.earega.earega_csv_sql group by insulin_intake_unit order by count desc; 
+select take_diabetic_pills, count(*) as count from qbs181.earega.earega_csv_sql group by take_diabetic_pills order by count desc; 
+select years_diabetes_specialist, count(*) as count from qbs181.earega.earega_csv_sql group by years_diabetes_specialist order by count desc;
+select doc_for_diabetes, count(*) as count from qbs181.earega.earega_csv_sql group by doc_for_diabetes order by count desc; 
+select doc_visits_pastyear, count(*) as count from qbs181.earega.earega_csv_sql group by doc_visits_pastyear order by count desc; 
+select glucose_check, count(*) as count from qbs181.earega.earega_csv_sql group by glucose_check order by count desc; 
+select glucose_check_unit, count(*) as count from qbs181.earega.earega_csv_sql group by glucose_check_unit order by count desc; 
+select A1C_check, count(*) as count from qbs181.earega.earega_csv_sql group by A1C_check order by count desc; 
+select last_A1C, count(*) as count from qbs181.earega.earega_csv_sql group by last_A1C order by count desc; 
+select recommended_A1C, count(*) as count from qbs181.earega.earega_csv_sql group by recommended_A1C order by count desc; 
+select recent_SBP, count(*) as count from qbs181.earega.earega_csv_sql group by recent_SBP  order by count desc;
+select recent_DBP, count(*) as count from qbs181.earega.earega_csv_sql group by recent_DBP order by count desc; 
+select recommended_SBP, count(*) as count from qbs181.earega.earega_csv_sql group by recommended_SBP order by count desc; 
+select DBP, count(*) as count from qbs181.earega.earega_csv_sql group by DBP order by count desc; 
+select recent_LDL, count(*) as count from qbs181.earega.earega_csv_sql group by recent_LDL order by count desc; 
+select recommended_LDL, count(*) as count from qbs181.earega.earega_csv_sql group by recommended_LDL order by count desc; 
+select feet_sores_checked, count(*) as count from qbs181.earega.earega_csv_sql group by feet_sores_checked order by count desc; 
+select frequency_feet_checked, count(*) as count from qbs181.earega.earega_csv_sql group by frequency_feet_checked order by count desc; 
+select frequency_feet_checked_unit, count(*) as count from qbs181.earega.earega_csv_sql group by frequency_feet_checked_unit order by count desc;
+select pupil_dilation_exam_date, count(*) as count from qbs181.earega.earega_csv_sql group by pupil_dilation_exam_date order by count desc; 
+select diabetes_retinopathy, count(*) as count from qbs181.earega.earega_csv_sql group by diabetes_retinopathy order by count desc; 
+
+select top 10 * from qbs181.earega.earega_csv_sql where personal_risk <> 'NA';
