@@ -1,1 +1,281 @@
 
+-- question 1 
+
+select * from qbs181.earega.IC_BP;
+
+-- a. 
+
+-- rename 
+
+SP_RENAME 'qbs181.earega.IC_BP.[BPAlerts]', 'BPstatus';
+
+-- b. 
+
+-- hypotension-1 and normal as controlled; Hypotension-2, Hypertension-1, Hypertension-2, Hypertension-3 as uncontrolled 
+
+UPDATE qbs181.earega.IC_BP set BPstatus ='controlled' where BPstatus='Hypo1';
+UPDATE qbs181.earega.IC_BP set BPstatus ='controlled' where BPstatus='Normal';
+
+UPDATE qbs181.earega.IC_BP set BPstatus ='uncontrolled' where BPstatus='Hypo2';
+UPDATE qbs181.earega.IC_BP set BPstatus ='uncontrolled' where BPstatus='HTN1';
+UPDATE qbs181.earega.IC_BP set BPstatus ='uncontrolled' where BPstatus='HTN2';
+UPDATE qbs181.earega.IC_BP set BPstatus ='uncontrolled' where BPstatus='HTN3';
+
+-- controlled = 1 and uncontrolled = 0
+
+UPDATE qbs181.earega.IC_BP set BPstatus ='1' where BPstatus='controlled';
+UPDATE qbs181.earega.IC_BP set BPstatus ='0' where BPstatus='uncontrolled';
+
+--c. 
+
+-- merging demographics with bp data 
+
+select * into earega.bp_demographics from qbs181.earega.IC_BP
+inner join qbs181.dbo.Demographics on IC_BP.ID = Demographics.contactid;
+
+-- open recently created file 
+
+select * from qbs181.earega.bp_demographics;
+
+-- remove unnecessary columns 
+
+alter table qbs181.earega.bp_demographics 
+drop column gendercode, tri_age, parentcontactidname, tri_imaginecareenrollmentstatus, address1_stateorprovince, test, gh1, gh2, pf02, gh3, gh4, gh5;
+
+alter table qbs181.earega.bp_demographics 
+drop column contactid;
+
+--d. 
+
+-- select min time for each subject   
+
+select ID as contactid, min(ObservedTime) as min_time into earega.min_obsrvd_time1
+from qbs181.earega.bp_demographics 
+group by ID;
+
+select * from earega.min_obsrvd_time1;
+
+-- select max time for each subject   
+
+select ID as contactid, max(ObservedTime) as max_time into earega.max_obsrvd_time
+from qbs181.earega.bp_demographics 
+group by ID;
+
+select * from earega.max_obsrvd_time;
+
+-- select min time for each subject 
+
+select * into earega.min_obsrvd_time2 from earega.min_obsrvd_time1
+inner join qbs181.earega.bp_demographics on qbs181.earega.bp_demographics.ID = earega.min_obsrvd_time1.contactid;
+
+alter table earega.min_obsrvd_time2 
+drop column contactid;
+
+select * from earega.min_obsrvd_time2;
+
+-- combine with the earlier table to include min and max time 
+
+select * into earega.obsrvd_time from earega.max_obsrvd_time
+inner join earega.min_obsrvd_time2 on earega.min_obsrvd_time2.ID = earega.max_obsrvd_time.contactid;
+
+select * from earega.obsrvd_time;
+
+alter table earega.obsrvd_time 
+drop column contactid;
+
+-- create a new table to make calculations easier and save table in case make a mistake   
+
+select ID, BPstatus, ObservedTime, min_time, max_time into earega.calculations from  earega.obsrvd_time;
+
+select * from earega.calculations;
+
+-- number of week for each subject 
+
+alter table earega.calculations add number_of_weeks nvarchar(50);
+
+update earega.calculations
+set number_of_weeks = datediff(week, min_time, max_time) + 1;
+
+select * from earega.calculations;
+
+select ID from earega.calculations group by ID; -- total 142 unique IDs
+
+-- remove where BP status is null 
+
+select BPstatus, ID
+from earega.calculations
+where ISNUMERIC(BPstatus) = 0
+
+delete from earega.calculations where BPstatus IS NULL;
+
+alter table earega.calculations
+alter column BPstatus numeric(1); 
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week1avgscore from earega.calculations where [ObservedTime] between min_time and DATEADD(week, 1, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week2avgscore from earega.calculations where [ObservedTime] between DATEADD(week, 1, min_time) and DATEADD(week, 2, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week3avgscore from earega.calculations where [ObservedTime] between DATEADD(week, 2, min_time) and DATEADD(week, 3, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week4avgscore from earega.calculations where [ObservedTime] between DATEADD(week, 3, min_time) and DATEADD(week, 4, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week5avgscore from earega.calculations where [ObservedTime] between DATEADD(week, 4, min_time) and DATEADD(week, 5, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week6avgscore from earega.calculations where [ObservedTime] between DATEADD(week, 5, min_time) and DATEADD(week, 6, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week7avgscore from earega.calculations where [ObservedTime] between DATEADD(week, 6, min_time) and DATEADD(week, 7, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week8avgscore from earega.calculations where [ObservedTime] between DATEADD(week, 7, min_time) and DATEADD(week, 8, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week9avgscore from earega.calculations where [ObservedTime] between DATEADD(week, 8, min_time) and DATEADD(week, 9, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week10avgscore from earega.calculations where [ObservedTime] between DATEADD(week, 9, min_time) and DATEADD(week, 10, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week11avgscore from earega.calculations where [ObservedTime] between DATEADD(week, 10, min_time) and DATEADD(week, 11, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+select [ID], [min_time], [number_of_weeks], avg(BPStatus) as week12avgscore from earega.calculations where [ObservedTime] between DATEADD(week, 11, min_time) and DATEADD(week, 12, min_time)
+group by [ID], [min_time], [number_of_weeks] order by [ID] asc;
+
+-- double check if results are correct 
+
+select * from earega.calculations where  ID='0187A327-A108-E611-811D-C4346BACD1A8';
+
+-- There are total of 142 unique IDs. If an ID is not present for each week, it means that the subject didn't have information for that week.  
+
+-- e. 
+
+-- compare scores from baseline to follow up scores, for example ID='0187A327-A108-E611-811D-C4346BACD1A8'
+		
+		-- Week 1: 0.916666
+		-- Week 2: 0.909090
+		-- Week 3: 1.000000
+		-- Week 4: 0.714285
+		-- Week 5: NA
+		-- Week 6: NA
+		-- Week 7: NA
+		-- Week 8: NA
+		-- Week 9: NA
+		-- Week 10: NA
+		-- Week 11: NA
+		-- Week 12: NA
+		
+-- example2,  ID='B686A7B0-7148-E611-80E7-5065F38B3241'
+		
+		-- Week 1: 0.800000
+		-- Week 2: 0.625000
+		-- Week 3: 1.000000
+		-- Week 4: 1.000000
+		-- Week 5: 1.000000
+		-- Week 6: 1.000000
+		-- Week 7: 0.777777
+		-- Week 8: 0.250000
+		-- Week 9: NA
+		-- Week 10: 1.000000
+		-- Week 11: 1.000000
+		-- Week 12: 1.000000
+
+-- f. 
+
+-- Week 1, number of uncontrolled = 48 where uncontrolled is defined as avg BPscore <0.5 and controlled is defined as avg BPscore >=0.5 for week 1; 
+
+-- Week 12 number of uncontrolled= 6 where uncontrolled is defined as avg BPscore <0.5 and controlled is defined as avg BPscore >=0.5 for week 12;
+
+-- IDs for the controlled at Week 12: 
+
+		-- 184E5183-C484-E611-80EF-C4346BDC2111
+		-- 2687A327-A108-E611-811D-C4346BACD1A8
+		-- 43FA86B2-2D0B-E611-8120-C4346BAD2660
+		-- 4B87A327-A108-E611-811D-C4346BACD1A8
+		-- 5060D306-D547-E611-80E6-5065F38BA151
+		-- 57EA1762-05E0-E511-8122-C4346BB59854
+		-- 61EA1762-05E0-E511-8122-C4346BB59854
+		-- 6587A327-A108-E611-811D-C4346BACD1A8
+		-- 69D67666-0A0E-E611-811E-C4346BACD1A8
+		-- 77FA86B2-2D0B-E611-8120-C4346BAD2660
+		-- A445C5F7-0C16-E611-8128-C4346BB59854
+		-- B686A7B0-7148-E611-80E7-5065F38B3241
+		-- CC45C5F7-0C16-E611-8128-C4346BB59854
+		-- E3E77E9D-5411-E611-811B-C4346BAC02E8
+		-- F786A327-A108-E611-811D-C4346BACD1A8
+		-- F986A327-A108-E611-811D-C4346BACD1A8
+		-- 47C234AD-C355-E611-80EC-5065F38B0171
+		-- 29F9BF37-E61D-E611-8128-C4346BB59854
+		-- 1DEA1762-05E0-E511-8122-C4346BB59854
+		-- CE86A327-A108-E611-811D-C4346BACD1A8
+		-- 8160825E-7EEB-E511-8125-C4346BB59854
+		-- 6D87A327-A108-E611-811D-C4346BACD1A8
+		-- 0B6DB84D-A7F7-E511-811C-FC15B42886E8
+
+-- check bp status at week 1 to see if 12 weeks of treatment helped 
+
+		-- 184E5183-C484-E611-80EF-C4346BDC2111: 1.000000
+		-- 2687A327-A108-E611-811D-C4346BACD1A8: 0.789473
+		-- 43FA86B2-2D0B-E611-8120-C4346BAD2660: 1.000000
+		-- 4B87A327-A108-E611-811D-C4346BACD1A8: 0.400000
+		-- 5060D306-D547-E611-80E6-5065F38BA151: 0.800000
+		-- 57EA1762-05E0-E511-8122-C4346BB59854: 0.888888
+		-- 61EA1762-05E0-E511-8122-C4346BB59854: 0.000000
+		-- 6587A327-A108-E611-811D-C4346BACD1A8: 0.76923
+		-- 69D67666-0A0E-E611-811E-C4346BACD1A8: 0.571428
+		-- 77FA86B2-2D0B-E611-8120-C4346BAD2660: 0.941176
+		-- A445C5F7-0C16-E611-8128-C4346BB59854: 0.600000
+		-- B686A7B0-7148-E611-80E7-5065F38B3241: 0.800000
+		-- CC45C5F7-0C16-E611-8128-C4346BB59854: 1.000000
+		-- E3E77E9D-5411-E611-811B-C4346BAC02E8: 0.000000
+		-- F786A327-A108-E611-811D-C4346BACD1A8: 1.000000
+		-- F986A327-A108-E611-811D-C4346BACD1A8: 0.833333
+		-- 47C234AD-C355-E611-80EC-5065F38B0171: 0.500000
+		-- 29F9BF37-E61D-E611-8128-C4346BB59854: 0.928571
+		-- 1DEA1762-05E0-E511-8122-C4346BB59854: 0.714285
+		-- CE86A327-A108-E611-811D-C4346BACD1A8: 0.636363
+		-- 8160825E-7EEB-E511-8125-C4346BB59854: 0.000000
+		-- 6D87A327-A108-E611-811D-C4346BACD1A8: 0.190476
+		-- 0B6DB84D-A7F7-E511-811C-FC15B42886E8: 0.916666
+
+-- Conclusion: Of those who completed 12 weeks of treatment (only 29), 23 had their blood pressure in control. Out of the 23, 5 had uncontrolled blood pressure in week 1. Thus, only 5 were brought from uncontrlled to controlled (this result is only for those who took the treatment upto at least week 12. 
+
+-- question 2 
+
+-- save each dataset under earega
+
+select * into qbs181.earega.callduration from qbs181.dbo.CallDuration;
+
+select * from qbs181.earega.callduration;
+
+select * into qbs181.earega.demographics from qbs181.dbo.Demographics;
+
+select * from qbs181.earega.demographics;
+
+select * into qbs181.earega.text2 from qbs181.dbo.[Text];
+
+select * from qbs181.earega.text2;
+
+-- merge the above 3 tables 
+
+select * into qbs181.earega.finaldataset from qbs181.earega.callduration
+inner join qbs181.earega.demographics on callduration.tri_CustomerIDEntityReference = demographics.contactid
+inner join qbs181.earega.text2 on callduration.tri_CustomerIDEntityReference = text2.tri_contactId;
+
+select * from qbs181.earega.finaldataset;
+
+-- delete unnecessary columns 
+
+alter table earega.finaldataset
+drop column contactid, gh1, gh2, pf02, gh3, gh4, gh5, tri_contactId; 
+
+-- dataset with final date text sent 
+
+select tri_CustomerIDEntityReference, max(TextSentDate) as latestdate into earega.latestdate from earega.finaldataset group by tri_CustomerIDEntityReference;
+
+select * from earega.latestdate
