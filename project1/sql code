@@ -1,0 +1,120 @@
+/* Question 1 */
+
+select * from qbs181.dbo.Demographics;
+
+select * into earega.hw3 from Demographics;
+
+select * from qbs181.earega.hw3;
+
+SP_RENAME 'qbs181.earega.hw3.[tri_age]', 'Age';
+
+SP_RENAME 'qbs181.earega.hw3.[gendercode]', 'Gender';
+
+SP_RENAME 'qbs181.earega.hw3.[contactid]', 'ContactID';
+
+SP_RENAME 'qbs181.earega.hw3.[parentcontactidname]', 'ParentContactID';
+
+SP_RENAME 'qbs181.earega.hw3.[tri_imaginecareenrollmentstatus]', 'EnrollmentStatus';
+
+SP_RENAME 'qbs181.earega.hw3.[address1_stateorprovince]', 'State';
+
+SP_RENAME 'qbs181.earega.hw3.[tri_imaginecareenrollmentemailsentdate]', 'EmailSentDate';
+
+SP_RENAME 'qbs181.earega.hw3.[tri_enrollmentcompletedate]', 'CompleteDate';
+
+select * from qbs181.earega.hw3
+
+select
+	datediff(day, try_convert(date, EmailSentDate), try_convert(date, CompleteDate)) as TimeCompleteEnrollment 
+from qbs181.earega.hw3
+
+alter table qbs181.earega.hw3
+add [TimeCompleteEnrollment] as (datediff(day, try_convert(date, EmailSentDate), try_convert(date, CompleteDate)))
+
+select * from qbs181.earega.hw3
+
+/* Question 2 */
+
+alter table qbs181.earega.hw3
+add Enrollment_Status varchar(255);
+
+UPDATE qbs181.earega.hw3
+set Enrollment_Status='Complete' 
+where EnrollmentStatus=167410011;
+
+UPDATE qbs181.earega.hw3 
+set Enrollment_Status='Email sent' 
+where EnrollmentStatus=167410001;
+
+UPDATE qbs181.earega.hw3 
+set Enrollment_Status='Non responder' 
+where EnrollmentStatus=167410004;
+
+UPDATE qbs181.earega.hw3 
+set Enrollment_Status='Facilitated Enrollment' 
+where EnrollmentStatus=167410005;
+
+UPDATE qbs181.earega.hw3
+set Enrollment_Status='Incomplete Enrollments' 
+where EnrollmentStatus=167410002;
+
+UPDATE qbs181.earega.hw3 
+set Enrollment_Status='Opted Out' 
+where EnrollmentStatus=167410003;
+
+UPDATE qbs181.earega.hw3 
+set Enrollment_Status='Unprocessed' 
+where EnrollmentStatus=167410000;
+
+UPDATE qbs181.earega.hw3 
+set Enrollment_Status='Second email sent ' 
+where EnrollmentStatus=167410006;
+
+select * from qbs181.earega.hw3
+
+/* Question 3 */
+
+alter table qbs181.earega.hw3
+add Sex varchar(255);
+
+UPDATE qbs181.earega.hw3 
+set Sex='female' 
+where Gender='2';
+
+UPDATE qbs181.earega.hw3
+set Sex='male' 
+where Gender='1';
+
+UPDATE qbs181.earega.hw3 
+set Sex='other' 
+where Gender='167410000';
+
+UPDATE qbs181.earega.hw3 
+set Sex='Unknown' 
+where Gender='NULL';
+
+SELECT * from qbs181.earega.hw3
+
+/* Question 4 */ 
+
+alter table qbs181.earega.hw3
+add Age_group varchar(255);
+
+UPDATE qbs181.earega.hw3
+set Age_group='0-25' 
+where Age BETWEEN 0 AND 25;
+
+UPDATE qbs181.earega.hw3
+set Age_group='26-50' 
+where Age BETWEEN 26 AND 50;
+
+UPDATE qbs181.earega.hw3
+set Age_group='51-75' 
+where Age BETWEEN 51 AND 75;
+
+SELECT top 10 * from qbs181.earega.hw3 where TimeCompleteEnrollment is not null 
+
+
+
+
+
