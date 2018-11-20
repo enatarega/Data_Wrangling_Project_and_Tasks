@@ -1,1 +1,161 @@
+/* Question 1 */ 
+
+select * from qbs181.dbo.PhoneCall;
+
+select * into earega.hw2 from PhoneCall;
+
+alter table qbs181.earega.hw2
+add Enrollment_group varchar(255);
+
+UPDATE qbs181.earega.hw2
+set Enrollment_group='Clinical Alert' 
+where EncounterCode=125060000;
+
+UPDATE qbs181.earega.hw2
+set Enrollment_group='Health Coaching' 
+where EncounterCode=125060001;
+
+UPDATE qbs181.earega.hw2
+set Enrollment_group='Technical question' 
+where EncounterCode=125060002;
+
+UPDATE qbs181.earega.hw2
+set Enrollment_group='Administrative' 
+where EncounterCode=125060003;
+
+UPDATE qbs181.earega.hw2
+set Enrollment_group='Lack of Engagement' 
+where EncounterCode=125060005;
+
+UPDATE qbs181.earega.hw2
+set Enrollment_group='Other' 
+where EncounterCode=125060004;
+
+select top 9 * from qbs181.earega.hw2
+
+/* Question 2 */
+
+select count(Enrollment_group) from qbs181.earega.hw2 where Enrollment_group='Administrative' /* 4,480 */ 
+
+select count(Enrollment_group) from qbs181.earega.hw2 where Enrollment_group='Health Coaching' /* 409 */
+
+select count(Enrollment_group) from qbs181.earega.hw2 where Enrollment_group='Clinical Alert' /* 453 */
+
+select count(Enrollment_group) from qbs181.earega.hw2 where Enrollment_group='Technical question' /* 1059 */
+
+select count(Enrollment_group) from qbs181.earega.hw2 where Enrollment_group='Lack of Engagement' /* 1824 */
+
+select count(Enrollment_group) from qbs181.earega.hw2 where Enrollment_group='Other' /* 189 */
+
+select Enrollment_group, count(*) as count from qbs181.earega.hw2 group by Enrollment_group order by count desc 
+
+/* Question 3 */
+
+select * into earega.hw2b from qbs181.dbo.CallDuration;
+
+select * from qbs181.earega.hw2;
+
+select * from qbs181.earega.hw2b;
+
+select * into earega.hw2c 
+from (
+	select qbs181.earega.hw2.CustomerId, qbs181.earega.hw2b.tri_CustomerIDEntityReference, qbs181.earega.hw2.EncounterCode, qbs181.earega.hw2.Enrollment_group, 
+	qbs181.earega.hw2b.CallDuration, qbs181.earega.hw2b.CallOutcome, qbs181.earega.hw2b.CallType
+	from qbs181.earega.hw2 
+	full outer join qbs181.earega.hw2b 
+	on qbs181.earega.hw2.CustomerId=qbs181.earega.hw2b.tri_CustomerIDEntityReference
+	) LU 
+	
+select top 9 * from earega.hw2c 
+
+/* Question 4 */
+
+select * from qbs181.earega.hw2c
+
+select distinct CallOutcome from qbs181.earega.hw2c  /* outcomes: 1, 2, 3, null;  total: 10,708 */
+
+select count(CallOutcome) from qbs181.earega.hw2c where CallOutcome=1; /* 5203 */
+
+select count(CallOutcome) from qbs181.earega.hw2c where CallOutcome=2; /* 4741 */
+
+select count(CallOutcome) from qbs181.earega.hw2c where CallOutcome=3; /* 764 */
+
+select sum(case when CallOutcome IS NULL THEN 1 END) from qbs181.earega.hw2c; /* 3567 */
+
+select CallOutcome, count(*) as count from qbs181.earega.hw2c group by CallOutcome order by count desc 
+
+
+select distinct CallType from qbs181.earega.hw2c  /* outcomes: 1, 2, null;  total: 10,708 */
+
+select count(CallType) from qbs181.earega.hw2c where CallType=1; /* 9875 */
+
+select count(CallType) from qbs181.earega.hw2c where CallType=2; /* 833 */
+
+select sum(case when CallType IS NULL THEN 1 END) from qbs181.earega.hw2c; /* 3567 */
+
+
+select CallType, count(*) as count from qbs181.earega.hw2c group by CallType order by count desc 
+
+
+select DISTINCT Enrollment_group from qbs181.earega.hw2c;
+
+select sum(CallDuration) from qbs181.earega.hw2c where Enrollment_group='Administrative'; /* 708,638 */
+
+select sum(CallDuration) from qbs181.earega.hw2c where Enrollment_group='Clinical Alert'; /* 268,6958 */
+
+select sum(CallDuration) from qbs181.earega.hw2c where Enrollment_group='Other'; /* 200,487 */
+
+select sum(CallDuration) from qbs181.earega.hw2c where Enrollment_group='Lack of Engagement'; /* 380,474 */
+
+select sum(CallDuration) from qbs181.earega.hw2c where Enrollment_group='Health Coaching'; /* 267,033 */
+
+select sum(CallDuration) from qbs181.earega.hw2c where Enrollment_group='Technical question'; /* 442,126 */
+
+select sum(CallDuration) from qbs181.earega.hw2c where Enrollment_group='Null'; /* 708,638 */
+
+select sum(CallDuration) from qbs181.earega.hw2c where Enrollment_group is Null; /* 549 */
+
+select CallDuration, count(*) as count from qbs181.earega.hw2c group by CallDuration order by count desc 
+
+select Enrollment_group, sum(CallDuration) as sum from qbs181.earega.hw2c group by Enrollment_group order by sum desc
+
+select sum(CallDuration) as sum from qbs181.earega.hw2c group by Enrollment_group order by sum desc
+
+select Enrollment_group, AVG(CallDuration) as Enrollment_Call_Duration from qbs181.earega.hw2c group by Enrollment_group
+
+/* Question 5 */
+
+select * into earega.hw2d from qbs181.dbo.Demographics;
+
+select * into earega.hw2e from qbs181.dbo.ChronicConditions;
+
+select * into earega.hw2f from qbs181.dbo.[Text];
+
+select * into earega.hw2g 
+from (
+	select qbs181.earega.hw2d.contactid, qbs181.earega.hw2d.address1_stateorprovince, qbs181.earega.hw2d.gendercode, 
+	qbs181.earega.hw2d.gh1, qbs181.earega.hw2d.gh2, qbs181.earega.hw2d.gh3, qbs181.earega.hw2d.gh4, qbs181.earega.hw2d.gh5,
+	qbs181.earega.hw2d.parentcontactidname, qbs181.earega.hw2d.pf02, qbs181.earega.hw2d.test, qbs181.earega.hw2d.tri_age, 
+	qbs181.earega.hw2d.tri_enrollmentcompletedate, qbs181.earega.hw2d.tri_imaginecareenrollmentemailsentdate, 
+	qbs181.earega.hw2d.tri_imaginecareenrollmentstatus, qbs181.earega.hw2e.tri_patientid, qbs181.earega.hw2e.tri_name,
+	qbs181.earega.hw2f.SenderName, qbs181.earega.hw2f.tri_contactId, qbs181.earega.hw2f.TextSentDate
+	from qbs181.earega.hw2d 
+	full outer join qbs181.earega.hw2e
+	on qbs181.earega.hw2d.contactid=qbs181.earega.hw2e.tri_patientid
+	full outer join qbs181.earega.hw2f 
+	on qbs181.earega.hw2d.contactid=qbs181.earega.hw2f.tri_contactId
+	) LU 
+
+select * from qbs181.earega.hw2g
+
+select SenderName, count/weeks as texts_per_week from 
+(select DateDiff(week, min(TextSentDate), max(TextSentDate)) as weeks, SenderName, count(*) as count from qbs181.earega.hw2g group by SenderName) AA
+
+/* Question 6 */ 
+
+select tri_name, count/weeks as texts_per_condition from 
+(select DateDiff(week, min(TextSentDate), max(TextSentDate)) as weeks, tri_name, count(*) as count from qbs181.earega.hw2g group by tri_name) AA
+
+
+
 
