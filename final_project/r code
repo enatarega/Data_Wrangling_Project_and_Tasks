@@ -1,1 +1,42 @@
+# load necessary libraries 
+
+install.packages("RODBC")
+library(RODBC)
+library(dplyr)
+library(tidyr)
+
+# connect to odbc driver 
+myconn <- odbcConnect('final', 'earega', 'e************')
+
+# import necessary tables 
+demographics <- sqlQuery(myconn, "select * from Demographics")
+
+head(data)
+
+chronic <- sqlQuery(myconn, 'select * from ChronicConditions')
+head(chronic)
+
+text <- sqlQuery(myconn, 'select * from Text')
+head(text)
+
+# merge demographics and chronic conditions  
+
+demo_chronic <- merge(demographics, chronic, by.x='contactid', by.y='tri_patientid')
+
+
+# merge previus table with text 
+
+demo_chronic_text <- merge(demo_chronic, text, by.x='contactid', by.y='tri_contactid')
+head(demo_chronic_text)
+
+# clean up table and remove unecessary columns 
+
+select(demo_chronic_text, -test,-gh1,-gh2,-gh3,-gh4,-gh5,-pf02)
+
+# look at the latest text sent date  
+
+latest_date <- demo_chronic_text %>%
+  group_by(contactid) %>%
+  slice(which.max(TextSentDate))
+
 
